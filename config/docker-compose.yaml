@@ -1,0 +1,12 @@
+services:
+  antithesis-whisper:
+    build: 
+        context: ../
+        dockerfile: Dockerfile
+        tags:
+          - ${REPOSITORY}/antithesis-whisper:latest
+    image: ${REPOSITORY}/antithesis-whisper:latest
+    container_name: antithesis-whisper
+    hostname: antithesis-whisper
+    ports:
+      - "9000:9000"

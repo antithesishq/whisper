@@ -1,9 +1,13 @@
-FROM onerahmet/openai-whisper-asr-webservice:latest 
+FROM python:3.12-slim
 
-RUN pip install openai-whisper
+WORKDIR /app
 
-RUN python3 -c "import whisper; whisper.load_model('medium', download_root='/app/models')"
+COPY requirements.txt .
 
-ENV ASR_MODEL=medium
-ENV ASR_MODEL_PATH=/app/models
-ENV ASR_DEVICE=cpu
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN python3 -c "from faster_whisper import WhisperModel; WhisperModel('medium', device='cpu', compute_type='int8', download_root='/app/models')"
+
+COPY harvard.wav .
+
+COPY main.py .

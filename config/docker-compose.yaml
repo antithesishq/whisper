@@ -2,7 +2,7 @@ services:
   antithesis-whisper:
     build: 
         context: ../
-        dockerfile: Dockerfile
+        dockerfile: whisper/Dockerfile
         tags:
           - ${REPOSITORY}/antithesis-whisper:latest
     image: ${REPOSITORY}/antithesis-whisper:latest
@@ -10,3 +10,21 @@ services:
     hostname: antithesis-whisper
     ports:
       - "9000:9000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000"] 
+      interval: 10s
+      timeout: 120s
+      retries: 12
+  client:
+    build:
+      context: ../
+      dockerfile: client/Dockerfile
+      tags:
+        - ${REPOSITORY}/antithesis-whisper-client:latest
+    image: ${REPOSITORY}/antithesis-whisper-client:latest
+    container_name: antithesis-whisper-client
+    hostname: antithesis-whisper-client
+    command: ["python3", "-u", "main.py"]
+    depends_on:
+      antithesis-whisper:
+        condition: service_healthy

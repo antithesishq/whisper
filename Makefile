@@ -6,9 +6,6 @@ config:
 whisper:
 	podman build whisper/ -t us-central1-docker.pkg.dev/molten-verve-216720/honey-pwhale-repository/antithesis-whisper:latest
 
-client:
-	podman build client/ -t us-central1-docker.pkg.dev/molten-verve-216720/honey-pwhale-repository/antithesis-whisper-client:latest
-
 down:
 	docker-compose -f config/docker-compose.yaml down -v
 
@@ -20,5 +17,4 @@ push:
 	cd ~/src/customer/customer-honey-whale
 	customer credentials_shell -c " \
 	podman push us-central1-docker.pkg.dev/molten-verve-216720/honey-pwhale-repository/antithesis-whisper-config:latest && \
-	podman push us-central1-docker.pkg.dev/molten-verve-216720/honey-pwhale-repository/antithesis-whisper-client:latest && \
 	podman push us-central1-docker.pkg.dev/molten-verve-216720/honey-pwhale-repository/antithesis-whisper:latest"

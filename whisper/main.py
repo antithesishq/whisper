@@ -1,9 +1,17 @@
-import whisper
+try:
+    import whisper
+except Exception as e:
+    print(e)
 
-model = whisper.load_model("turbo")
+try:
+    model = whisper.load_model("medium", download_root="/app/models")
+except Exception as e:
+    print(e)
+
+print(model)
 
 # load audio and pad/trim it to fit 30 seconds
-audio = whisper.load_audio("audio.mp3")
+audio = whisper.load_audio("harvard.wav")
 audio = whisper.pad_or_trim(audio)
 
 # make log-Mel spectrogram and move to the same device as the model

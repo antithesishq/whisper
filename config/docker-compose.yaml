@@ -8,3 +8,4 @@ services:
     image: ${REPOSITORY}/antithesis-whisper:latest
     container_name: antithesis-whisper
     hostname: antithesis-whisper
+    command: ["python3", "-u", "main.py"]

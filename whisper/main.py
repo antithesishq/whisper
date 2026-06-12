@@ -1,12 +1,6 @@
-try:
-    import whisper
-except Exception as e:
-    print(e)
+import whisper
 
-try:
-    model = whisper.load_model("medium", download_root="/app/models")
-except Exception as e:
-    print(e)
+model = whisper.load_model("medium", download_root="/app/models")
 
 print(model)
 

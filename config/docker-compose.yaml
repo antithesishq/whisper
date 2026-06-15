@@ -24,7 +24,7 @@ services:
     image: ${REPOSITORY}/antithesis-whisper-client:latest
     container_name: antithesis-whisper-client
     hostname: antithesis-whisper-client
-    command: ["python3", "-u", "main.py"]
+    command: ["python3", "-u", "main.py", "inf"]
     depends_on:
       antithesis-whisper:
         condition: service_healthy

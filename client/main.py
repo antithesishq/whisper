@@ -1,6 +1,7 @@
 #!/usr/bin/env -S python3 -u
 
 
+import sys
 import time
 import requests
 import hashlib
@@ -12,8 +13,10 @@ from antithesis.assertions import (
     always
 )
 
+total_transcriptions = 0
 
 def transcribe_audio():
+    global total_transcriptions
     url = 'http://antithesis-whisper:9000/asr'
     params = {
         'encode': 'true',
@@ -35,12 +38,26 @@ def transcribe_audio():
     except Exception as e:
         print(f"[client]: transcribing audio failed {e}")
 
+    total_transcriptions += 1
     print(response.text)
-
 
 
 if __name__ == "__main__":
     setup_complete("[client]: whisper server is ready")
-    while True:
-        transcribe_audio()
-        time.sleep(10)
+    if len(sys.argv) > 1:
+        run_len = sys.argv[1]
+        print(f"[client]: running for {run_len} (sec)")
+        if run_len == "inf":
+            while True:
+                transcribe_audio()
+                time.sleep(10)
+        else:
+            start_time = time.time()
+            run_len = int(run_len)
+            while time.time() - start_time <= run_len:
+                transcribe_audio()
+                time.sleep(10)
+            print(f"[client]: total transcriptions {total_transcriptions}")
+    else:
+        print("run length arg not provided")
+        exit(1)
